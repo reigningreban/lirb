@@ -4,6 +4,7 @@ import { Inertia } from "@inertiajs/inertia";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 import { timestampToDate } from "../utils/Format";
+import CreateModal from "../components/CreateModal";
 
 function TableRow(props) {
     let post = props.post
@@ -27,7 +28,13 @@ function TableRow(props) {
 export default function Posts(props) {
     const [values, setValues] = useState({
       filter: "",
-    })
+    });
+
+    const [state, setState] = useState({
+      createModalOpen: true,
+      editModalOpen: false,
+    });
+
     const cbRef = useRef();
 
     const setValuesCustom = (newValues, callback) => {
@@ -48,7 +55,14 @@ export default function Posts(props) {
       setValuesCustom(values => ({
           ...values,
           [key]: value,
-      }), function(values) {Inertia.post('/posts/filter', values, {preserveScroll: true,});})
+      }), function(values) {Inertia.post('/posts', values, {preserveScroll: true,});})
+    }
+
+    function setCreateModal(val){
+        setState(state => ({
+            ...state,
+            createModalOpen: val
+        }));
     }
 
     return(
@@ -59,12 +73,14 @@ export default function Posts(props) {
                 <table className="table-auto mt-10 border-collapse border border-slate-500 w-full">
                     <thead>
                         <tr>
-                            <td colSpan={4}>
-                                <div className="flex justify-end p-2 align-items-center">
-                                    <div className="font-bold flex mr-5"><span className="inline">Filter Posts</span></div>
-                                    <div>
-                                        <input id="filter" type="text" className="w-48 rounded p-2 border border-blue-400" onChange={handleChange} value={values.filter} placeholder="filter" />
-                                    </div>
+                            <td colSpan={3}>
+                                <div className="pl-2">
+                                    <button className="p-3 rounded bg-green-700 text-white" onClick={() => setCreateModal(true)}>Create Post</button>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="p-2 pl-0">
+                                    <input id="filter" type="text" className="rounded p-2 border border-blue-400 w-full" onChange={handleChange} value={values.filter} placeholder="filter by title" />
                                 </div>
                             </td>
                         </tr>
@@ -80,6 +96,7 @@ export default function Posts(props) {
                     </tbody>
                 </table>
             </div>
+            <CreateModal isOpen={state.createModalOpen} closeModal={() => setCreateModal(false)}/>
             <Footer/>
         </div>
     )

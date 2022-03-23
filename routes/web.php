@@ -19,4 +19,4 @@ Route::inertia('/about', 'About')->name('about');
 Route::inertia('/login', 'Login')->name('login');
 Route::get('/post/{uuid}', [PostController::class, 'show'])->name('post.show');
 Route::get('/posts', [PostController::class, 'posts'])->name('posts.all');
-Route::post('/posts/filter', [PostController::class, 'filter'])->name('posts.filter');
+Route::post('/posts', [PostController::class, 'filter'])->name('posts.filter');

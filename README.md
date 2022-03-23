@@ -37,7 +37,7 @@ npm install
 ```bash
 php artisan serve
 ```
-3. Compile Front-End
+3. Compile Front-End. laravel-mix helps us compile our templates and styles so we don't need to complie them.
 ```bash
 npm run watch
 ```
