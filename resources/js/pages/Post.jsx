@@ -10,9 +10,9 @@ export default function Post(props) {
             <Nav/>
             <div className="px-10 sm:px-48 py-20 flex justify-center flex-wrap">
                 <h1 className="font-bold text-center text-4xl w-full capitalize">{post.title}</h1>
-                <img src={post.image} alt={`image for ${post.title}`} className="w-4/5 my-10" />
+                <img src={post.imagelink} alt={`image for ${post.title}`} className="w-4/5 my-10" />
                 <div className="w-3/4">
-                    <p>{post.body}</p>
+                    <div dangerouslySetInnerHTML={{__html: post.body}}></div>
                     <p className="text-sm text-right text-gray-500 mt-5"> - {timestampToDate(post.created_at)}</p>
                 </div>
             </div>

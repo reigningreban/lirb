@@ -8,7 +8,7 @@ export default function Post(props) {
         <Link href={post.url}>
             <div className="rounded-sm overflow-hidden shadow shadow-stone-200 hover:shadow-lg hover:scale-105 ease-in-out duration-300">
                 <div>
-                    <img src={post.image} alt={`image for ${post.title}`} className="w-100" />
+                    <img src={post.imagelink} alt={`image for ${post.title}`} className="w-100" />
                 </div>
                 <div className="p-6">
                     <p className="font-bold truncate ...">{post.title}</p>

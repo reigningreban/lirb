@@ -6,6 +6,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -43,9 +44,15 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(storePostRequest $request)
     {
-        //
+        $post = new Post;
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $path = $request->file('image')->storePublicly('public/uploads');
+        $post->image = $path;
+        $post->save();
+        return redirect()->back();
     }
 
     /**
@@ -103,5 +110,12 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    public function delete(Post $post, $uuid)
+    {
+        $target = $post->find($uuid);
+        $target->delete();
+        return redirect()->back();
     }
 }

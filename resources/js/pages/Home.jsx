@@ -22,3 +22,5 @@ export default function Home(props) {
         </div>
     )
 }
+// Todo Make sure cards are the same height
+//use layout for nav, footer and container

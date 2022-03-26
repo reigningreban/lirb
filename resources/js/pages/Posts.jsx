@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 import { timestampToDate } from "../utils/Format";
 import CreateModal from "../components/CreateModal";
+import DeleteModal from "../components/DeleteModal";
 
 function TableRow(props) {
     let post = props.post
@@ -16,9 +17,9 @@ function TableRow(props) {
             <td className="border border-slate-500 p-3">{timestampToDate(post.created_at, true)}</td>
             <td className="border border-slate-500 p-3">
                 <div className="grid grid-cols-3 gap-5">
-                    <Link href={post.url}  className="btn rounded bg-blue-500 text-white px-2 py-1"><button className="w-full">View</button></Link>
-                    <Link as="button" type="button" className="btn rounded bg-yellow-500 text-white px-2 py-1">Edit</Link>
-                    <Link as="button" type="button" className="btn rounded bg-red-500 text-white px-2 py-1">Delete</Link>
+                    <Link href={post.url}  className="rounded bg-blue-500 text-white py-1"><button className="w-full">View</button></Link>
+                    <Link as="button" type="button" className="rounded bg-yellow-500 text-white py-1">Edit</Link>
+                    <button as="button" type="button" className="rounded bg-red-500 text-white py-1" method="delete" onClick={props.initDelete}>Delete</button>
                 </div>
             </td>
         </tr>
@@ -31,8 +32,10 @@ export default function Posts(props) {
     });
 
     const [state, setState] = useState({
-      createModalOpen: true,
+      createModalOpen: false,
       editModalOpen: false,
+      deleteModalOpen: false,
+      deleteModalTarget: {},
     });
 
     const cbRef = useRef();
@@ -65,6 +68,32 @@ export default function Posts(props) {
         }));
     }
 
+    function initDelete(post) {
+        setState(state => ({
+            ...state,
+            deleteModalTarget: post,
+            deleteModalOpen: true,
+        }));
+    }
+
+    function cancelDelete() {
+        setState(state => ({
+            ...state,
+            deleteModalOpen: false,
+            deleteModalTarget: {},
+        }));
+    }
+
+    function deletePost() {
+        let url = `/post/${state.deleteModalTarget.id}/delete`;
+        Inertia.delete(url, {
+            preserveScroll: true,
+            onSuccess: () => {
+               cancelDelete();
+            },
+        })
+    }
+
     return(
         <div className="relative min-h-screen">
             <Nav/>
@@ -92,11 +121,12 @@ export default function Posts(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {props.posts.map((post, index) => <TableRow post = {post} index = {index} key = {index} />)}
+                        {props.posts.map((post, index) => <TableRow post = {post} index = {index} key = {index} initDelete = {() => initDelete(post)} />)}
                     </tbody>
                 </table>
             </div>
             <CreateModal isOpen={state.createModalOpen} closeModal={() => setCreateModal(false)}/>
+            <DeleteModal isOpen={state.deleteModalOpen} cancel={cancelDelete} delete={deletePost} title={state.deleteModalTarget.title} />
             <Footer/>
         </div>
     )
