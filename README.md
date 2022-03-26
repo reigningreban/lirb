@@ -41,3 +41,8 @@ php artisan serve
 ```bash
 npm run watch
 ```
+note: for development purposes you can uncomment browsersync in webpack.mix.js
+```
+// mix.browserSync('127.0.0.1:8000');
+```
+This will enable live reload and help you develop faster however if you're only going to use the blog leave it commented, the new port will clash with laravel generated routes.
