@@ -13,7 +13,7 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,19 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => ['required', \Illuminate\Validation\Rule::unique('posts')->ignore($this->post()['id'])],
+            'body'  => 'required'
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'title.required'    => 'Please enter a title',
+            'title.unique'      => 'A post with this title already exists',
+            'image.required'    => 'Please upload an image',
+            'image.image'       => 'Invalid image format',
+            'image.size'        => 'Please upload an image of 2MB or less',
+            'body.required'     => 'Please enter your post pody'
         ];
     }
 }

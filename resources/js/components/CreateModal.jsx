@@ -21,12 +21,11 @@ const customStyles = {
 
 
 export default function CreateModal(props) {
-    const { errors } = usePage().props
     const [image, setImage] = useState(null);
     const [state, setState] = useState({
         fullScreen: false,
     });
-    const { data, setData, post, progress, processing, reset } = useForm({
+    const { data, setData, post, progress, processing, reset, errors, clearErrors } = useForm({
       title: "",
       image: "",
       body: "",
@@ -48,7 +47,6 @@ export default function CreateModal(props) {
     }
 
     function toggleFullScreen(e) {
-        console.log("clicked");
         setState(state => ({
             ...state,
             fullScreen: !state.fullScreen,
@@ -72,7 +70,10 @@ export default function CreateModal(props) {
                         </button>
                     </div>
                     <div className="flex justify-end">
-                        <button className="text-red-500 hover:text-red-600 hover:scale-110 ease-in-out duration-300 font-black" title="close" onClick={props.closeModal}><FontAwesomeIcon size="lg" icon={faXmark}/></button>
+                        <button className="text-red-500 hover:text-red-600 hover:scale-110 ease-in-out duration-300 font-black" title="close" onClick={() => {
+                            clearErrors()
+                            props.closeModal()
+                        }}><FontAwesomeIcon size="lg" icon={faXmark}/></button>
                     </div>
                 </div>
                 <h2 className="font-bold text-3xl text-center border-b-2 border-blue-600">Create a new post</h2>

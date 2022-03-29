@@ -46,3 +46,5 @@ note: for development purposes you can uncomment browsersync in webpack.mix.js
 // mix.browserSync('127.0.0.1:8000');
 ```
 This will enable live reload and help you develop faster however if you're only going to use the blog leave it commented, the new port will clash with laravel generated routes.
+### STYLING
+The styling is done using [TailwindCSS](https://tailwindcss.com/) and compiled using webpack. Styling with sass is also available, just write your sass in the `resources/sass/app.scss` and wepack will recompile on save.

@@ -98,7 +98,16 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $target = $post->find($request->id);
+        $target->title = $request->title;
+        $target->body = $request->body;
+        if($request->image){
+            //delete old file?
+            $path = $request->file('image')->storePublicly('public/uploads');
+            $target->image = $path;
+        }
+        $target->save();
+        return redirect()->back();
     }
 
     /**

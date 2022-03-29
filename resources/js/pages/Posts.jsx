@@ -6,6 +6,7 @@ import Nav from "../components/Nav";
 import { timestampToDate } from "../utils/Format";
 import CreateModal from "../components/CreateModal";
 import DeleteModal from "../components/DeleteModal";
+import EditModal from "../components/EditModal";
 
 function TableRow(props) {
     let post = props.post
@@ -18,7 +19,7 @@ function TableRow(props) {
             <td className="border border-slate-500 p-3">
                 <div className="grid grid-cols-3 gap-5">
                     <Link href={post.url}  className="rounded bg-blue-500 text-white py-1"><button className="w-full">View</button></Link>
-                    <Link as="button" type="button" className="rounded bg-yellow-500 text-white py-1">Edit</Link>
+                    <button as="button" type="button" className="rounded bg-yellow-500 text-white py-1" onClick={props.initEdit}>Edit</button>
                     <button as="button" type="button" className="rounded bg-red-500 text-white py-1" method="delete" onClick={props.initDelete}>Delete</button>
                 </div>
             </td>
@@ -34,6 +35,7 @@ export default function Posts(props) {
     const [state, setState] = useState({
       createModalOpen: false,
       editModalOpen: false,
+      editModalTarget: {},
       deleteModalOpen: false,
       deleteModalTarget: {},
     });
@@ -52,6 +54,12 @@ export default function Posts(props) {
         cbRef.current = undefined;
     }, [values]);
 
+    useEffect(() => {
+        if (state.editModalTarget.id) {
+
+        }
+    }, [state])
+
     function handleChange(e) {
       const key = e.target.id;
       const value = e.target.value
@@ -68,6 +76,13 @@ export default function Posts(props) {
         }));
     }
 
+    function setEditModal(val){
+        setState(state => ({
+            ...state,
+            editModalOpen: val
+        }));
+    }
+
     function initDelete(post) {
         setState(state => ({
             ...state,
@@ -76,11 +91,27 @@ export default function Posts(props) {
         }));
     }
 
+    function initEdit(post) {
+        setState(state => ({
+            ...state,
+            editModalTarget: post,
+            editModalOpen: true,
+        }));
+    }
+
     function cancelDelete() {
         setState(state => ({
             ...state,
             deleteModalOpen: false,
             deleteModalTarget: {},
+        }));
+    }
+
+    function cancelEdit() {
+        setState(state => ({
+            ...state,
+            editModalOpen: false,
+            editModalTarget: {},
         }));
     }
 
@@ -121,12 +152,13 @@ export default function Posts(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {props.posts.map((post, index) => <TableRow post = {post} index = {index} key = {index} initDelete = {() => initDelete(post)} />)}
+                        {props.posts.map((post, index) => <TableRow post = {post} index = {index} key = {index} initDelete = {() => initDelete(post)} initEdit = {() => initEdit(post)} />)}
                     </tbody>
                 </table>
             </div>
             <CreateModal isOpen={state.createModalOpen} closeModal={() => setCreateModal(false)}/>
             <DeleteModal isOpen={state.deleteModalOpen} cancel={cancelDelete} delete={deletePost} title={state.deleteModalTarget.title} />
+            {state.editModalTarget.id && <EditModal isOpen={state.editModalOpen} cancel={cancelEdit} post={state.editModalTarget} />}
             <Footer/>
         </div>
     )

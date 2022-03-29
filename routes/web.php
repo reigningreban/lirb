@@ -22,3 +22,4 @@ Route::get('/posts', [PostController::class, 'posts'])->name('posts.all');
 Route::post('/posts', [PostController::class, 'filter'])->name('posts.filter');
 Route::post('/post/create', [PostController::class, 'create'])->name('posts.create');
 Route::delete('/post/{uuid}/delete', [PostController::class, 'delete'])->name('posts.delete');
+Route::post('/post/update', [PostController::class, 'update'])->name('posts.update');
