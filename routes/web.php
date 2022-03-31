@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PostController;
@@ -23,3 +24,9 @@ Route::post('/posts', [PostController::class, 'filter'])->name('posts.filter');
 Route::post('/post/create', [PostController::class, 'create'])->name('posts.create');
 Route::delete('/post/{uuid}/delete', [PostController::class, 'delete'])->name('posts.delete');
 Route::post('/post/update', [PostController::class, 'update'])->name('posts.update');
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+require __DIR__.'/auth.php';

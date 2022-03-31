@@ -9,12 +9,8 @@ use App\Traits\Uuids;
 
 class Post extends Model
 {
-    protected $appends = ['url', 'imagelink'];
+    protected $appends = ['imagelink'];
     use HasFactory, Uuids;
-    public function getUrlAttribute()
-    {
-        return route('post.show', ['uuid' => $this->id]);
-    }
 
 
     public function getImagelinkAttribute()

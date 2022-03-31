@@ -4,9 +4,9 @@ import { Link, usePage } from "@inertiajs/inertia-react";
 export default function Nav(props) {
     const {url, component} = usePage();
     return(
-        <nav className="bg-white border-gray-200 px-2 sm:px-4 py-4 dark:bg-blue-800">
+        <nav className="bg-white border-gray-200 px-2 sm:px-4 py-4 dark:bg-blue-800 fixed top-0 w-full">
             <div className="container flex flex-wrap justify-between items-center mx-auto">
-                <Link href="/" className="flex items-center">
+                <Link href={route('home')} className="flex items-center">
                     <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Test Blog</span>
                 </Link>
                 <button data-collapse-toggle="mobile-menu" type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu" aria-expanded="false">
@@ -17,14 +17,18 @@ export default function Nav(props) {
                 <div className="hidden w-full md:block md:w-auto" id="mobile-menu">
                     <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium text-white">
                         <li>
-                            <Link href="/" className={`block py-2 pr-4 pl-3  md:border-0 hover:text-gray-300 ${component === 'Home' ? "underline" : ""}`}>Home</Link>
+                            <Link href={route('home')} className={`block py-2 pr-4 pl-3  md:border-0 hover:text-gray-300 ${component === 'Home' ? "underline" : ""}`}>Home</Link>
                         </li>
                         <li>
-                            <Link href="/about" className={`block py-2 pr-4 pl-3 border-b md:border-0 hover:text-gray-300 ${component === 'About' ? "underline" : ""}`}>About</Link>
+                            <Link href={route('about')} className={`block py-2 pr-4 pl-3 border-b md:border-0 hover:text-gray-300 ${component === 'About' ? "underline" : ""}`}>About</Link>
                         </li>
                         <li>
-                            <Link href="/posts" className={`block py-2 pr-4 pl-3 border-b md:border-0 hover:text-gray-300 ${component === 'Posts' ? "underline" : ""}`}>Manage Posts</Link>
+                            <Link href={route('posts.all')} className={`block py-2 pr-4 pl-3 border-b md:border-0 hover:text-gray-300 ${component === 'Posts' ? "underline" : ""}`}>Manage Posts</Link>
                         </li>
+                        <li>
+                            <Link href={route('login')} className={`block py-2 pr-4 pl-3 border-b md:border-0 hover:text-gray-300 ${url === '/login' ? "underline" : ""}`}>Login</Link>
+                        </li>
+
                     </ul>
                 </div>
             </div>
