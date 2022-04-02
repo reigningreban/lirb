@@ -6,8 +6,9 @@ import Input from '@/Components/Input';
 import Label from '@/Components/Label';
 import ValidationErrors from '@/Components/ValidationErrors';
 import { Head, Link, useForm } from '@inertiajs/inertia-react';
+import Base from '@/Layouts/Base';
 
-export default function Login({ status, canResetPassword }) {
+const Login = ({ status, canResetPassword }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -92,3 +93,7 @@ export default function Login({ status, canResetPassword }) {
         </Guest>
     );
 }
+
+Login.layout = page => <Base children={page} auth = {page.props.auth}/>
+
+export default  Login

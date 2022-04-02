@@ -12,7 +12,7 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => {
         const page = require(`./Pages/${name}`).default
-        page.layout = page.layout || Base
+        // page.layout = page.layout || Base
         return page
     },
     setup({ el, App, props }) {

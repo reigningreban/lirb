@@ -1,5 +1,6 @@
 import react from "react";
 import { Link, usePage } from "@inertiajs/inertia-react";
+import Dropdown from "./Dropdown";
 
 export default function Nav(props) {
     const {url, component} = usePage();
@@ -22,13 +23,50 @@ export default function Nav(props) {
                         <li>
                             <Link href={route('about')} className={`block py-2 pr-4 pl-3 border-b md:border-0 hover:text-gray-300 ${component === 'About' ? "underline" : ""}`}>About</Link>
                         </li>
+                        {props.auth.user ?
+                            <li>
+                                <Link href={route('posts.all')} className={`block py-2 pr-4 pl-3 border-b md:border-0 hover:text-gray-300 ${component === 'Posts' ? "underline" : ""}`}>Manage Posts</Link>
+                            </li>
+                            :
+                            <li>
+                                <Link href={route('login')} className={`block py-2 pr-4 pl-3 border-b md:border-0 hover:text-gray-300 ${url === '/login' ? "underline" : ""}`}>Login</Link>
+                            </li>
+                        }
+                        {props.auth.user &&
                         <li>
-                            <Link href={route('posts.all')} className={`block py-2 pr-4 pl-3 border-b md:border-0 hover:text-gray-300 ${component === 'Posts' ? "underline" : ""}`}>Manage Posts</Link>
-                        </li>
-                        <li>
-                            <Link href={route('login')} className={`block py-2 pr-4 pl-3 border-b md:border-0 hover:text-gray-300 ${url === '/login' ? "underline" : ""}`}>Login</Link>
-                        </li>
+                            <Dropdown>
+                                <Dropdown.Trigger>
+                                    <span className="inline-flex rounded-md">
+                                        <button
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                        >
+                                            {props.auth.user.name}
 
+                                            <svg
+                                                className="ml-2 -mr-0.5 h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </Dropdown.Trigger>
+
+                                <Dropdown.Content>
+                                    <Dropdown.Link href={route('logout')} method="post" as="button">
+                                        Log Out
+                                    </Dropdown.Link>
+                                </Dropdown.Content>
+                            </Dropdown>
+                        </li>
+                        }
                     </ul>
                 </div>
             </div>

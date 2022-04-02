@@ -1,9 +1,10 @@
+import Base from "@/Layouts/Base";
 import react from "react";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 import { timestampToDate } from "../utils/Format";
 
-export default function Post(props) {
+const Post = (props) => {
     let post = props.post
     return(
         <div className="">
@@ -18,3 +19,7 @@ export default function Post(props) {
         </div>
     )
 }
+
+Post.layout = page => <Base children={page} auth = {page.props.auth}/>
+
+export default  Post

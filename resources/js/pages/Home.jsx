@@ -1,10 +1,11 @@
+import Base from "@/Layouts/Base";
 import react from "react";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 import Paginator from "../components/Paginator";
 import Post from "../components/Post";
 
-export default function Home(props) {
+const Home = (props) => {
     let posts = props.posts;
     return(
         <div className="">
@@ -20,4 +21,7 @@ export default function Home(props) {
         </div>
     )
 }
-//use layout for nav, footer and container
+
+Home.layout = page => <Base children={page} auth = {page.props.auth}/>
+
+export default  Home
